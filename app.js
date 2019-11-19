@@ -4,6 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var rpio = require('rpio');
+rpio.open(16, rpio.INPUT);
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -38,4 +41,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+console.log("Pin 16 Readout: ", rpio.read(16));
+
 module.exports = app;
+
