@@ -6,8 +6,8 @@ var logger = require('morgan');
 
 // =============== Initiate Sam's Testing Code ==============
 var rpio = require('rpio');
-rpio.init({mapping: 'gpio'}); // Initialize with GPIO Pin Number Mapping
-rpio.open(18, rpio.OUTPUT, rpio.LOW); // Setup GPIO18 as output pin with starting value of 0
+//rpio.init({mapping: 'gpio'}); // Initialize with GPIO Pin Number Mapping
+//rpio.open(18, rpio.OUTPUT, rpio.LOW); // Setup GPIO18 as output pin with starting value of 0
 // ==========================================================
 
 var indexRouter = require('./routes/index');
@@ -45,7 +45,18 @@ app.use(function(err, req, res, next) {
 });
 
 // ================Sam's Testing Code=======================
-rpio.write(18, rpio.HIGH); // set GPIO18 to on
+var power_mgmt_1 = 0x6b;
+var power_mgmt_2 = 0x6c;
+
+function read_byte(register) {
+	return rpio.i2cRead(Buffer(register), 1)
+};
+
+rpio.i2cBegin();
+rpio.i2cSetSlaveAddress(0x68);
+rpio.i2cSetBaudRate(100000);
+console.log(read_byte(0x3b));
+rpio.i2cEnd();
 // ==========================================================
 
 module.exports = app;
