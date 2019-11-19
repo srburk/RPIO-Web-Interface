@@ -4,8 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// =============== Initiate Sam's Testing Code ==============
 var rpio = require('rpio');
-rpio.open(16, rpio.INPUT);
+rpio.init({mapping: 'gpio'}); // Initialize with GPIO Pin Number Mapping
+rpio.open(18, rpio.OUTPUT, rpio.LOW); // Setup GPIO18 as output pin with starting value of 0
+// ==========================================================
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -41,7 +44,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-console.log("Pin 16 Readout: ", rpio.read(16));
+// ================Sam's Testing Code=======================
+rpio.write(18, rpio.HIGH); // set GPIO18 to on
+// ==========================================================
 
 module.exports = app;
 
