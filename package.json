@@ -1,5 +1,5 @@
 {
-  "name": "rpio-web-interface",
+  "name": "rpi-i2c-backend",
   "version": "0.0.0",
   "private": true,
   "scripts": {
