@@ -5,13 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 // =============== Initiate Sam's Testing Code ==============
-var rpio = require('rpio');
-rpio.init({mapping: 'gpio'}); // Initialize with GPIO Pin Number Mapping
-rpio.open(18, rpio.OUTPUT, rpio.LOW); // Setup GPIO18 as output pin with starting value of 0
+// var rpio = require('rpio');
+// rpio.init({mapping: 'gpio'}); // Initialize with GPIO Pin Number Mapping
+// rpio.open(18, rpio.OUTPUT, rpio.LOW); // Setup GPIO18 as output pin with starting value of 0
 // ==========================================================
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 var app = express();
 
@@ -26,7 +25,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -45,8 +43,7 @@ app.use(function(err, req, res, next) {
 });
 
 // ================Sam's Testing Code=======================
-rpio.write(18, rpio.HIGH); // set GPIO18 to on
+// rpio.write(18, rpio.HIGH); // set GPIO18 to on
 // ==========================================================
 
 module.exports = app;
-
