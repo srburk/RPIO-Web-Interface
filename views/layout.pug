@@ -1,7 +1,17 @@
 doctype html
-html
+html(lang='en')
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+  
+    block scripts
+      script(src='/public/scripts/jquery-3.4.1.min.js')
+      
+      // Meta Headers
+      meta(charset='utf-8')
+      meta(name='viewport', content='width=device-width, initial-scale=1')
+
+      // CSS
+      link(rel='stylesheet', href='/stylesheets/style.css')
+  
   body
     block content
