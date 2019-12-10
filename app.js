@@ -16,7 +16,7 @@ var apiRouter = require('./routes/api');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+// app.set('views', path.join(__dirname, 'views'));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -40,11 +40,10 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.status(500).json({
+        message: err.message,
+        error: err
+    });
 });
-
-// ================Sam's Testing Code=======================
-// rpio.write(18, rpio.HIGH); // set GPIO18 to on
-// ==========================================================
 
 module.exports = app;
