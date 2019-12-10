@@ -3,17 +3,23 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-// =============== Initiate Sam's Testing Code ==============
-// var rpio = require('rpio');
-// rpio.init({mapping: 'gpio'}); // Initialize with GPIO Pin Number Mapping
-// rpio.open(18, rpio.OUTPUT, rpio.LOW); // Setup GPIO18 as output pin with starting value of 0
-// ==========================================================
+var WebSocket = require('ws');
 
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
 
 var app = express();
+
+// initialize server instance
+const wss = new WebSocket.Server({ port: 8000 });
+
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    console.log('Recieved: %s', message);
+  });
+
+  ws.send('Connected with WebSocket Server');
+});
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
