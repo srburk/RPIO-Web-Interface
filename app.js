@@ -3,23 +3,45 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var WebSocket = require('ws');
-
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
 
 var app = express();
 
+// WebSocket Code =================================
+// import
+var WebSocket = require('ws');
+
 // initialize server instance
 const wss = new WebSocket.Server({ port: 8000 });
 
-wss.on('connection', function connection(ws) {
-  ws.on('message', function incoming(message) {
+// on connection event, start this
+wss.on('connection', (ws) => {
+  // message handler
+  ws.on('message', (message) => {
     console.log('Recieved: %s', message);
   });
 
-  ws.send('Connected with WebSocket Server');
+  // status handlers
+  ws.send('Client connected');
+  console.log('Client connected');
+
+  ws.on('close', () => {
+    console.log('Client disconnected');
+  });
 });
+
+// always send info regardless of client call requests
+setInterval(() => {
+  wss.clients.forEach((client) => {
+    client.send(new Date().toTimeString());
+  });
+}, 1000);
+
+// End WebSocket Code ==============================
+
+// Testing Client Code
+app.use('/client', express.static(path.join(__dirname, 'websocket-client.html')));
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -34,12 +56,12 @@ app.use('/', indexRouter);
 app.use('api', apiRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
