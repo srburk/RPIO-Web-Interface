@@ -9,6 +9,9 @@
   "engine": {
     "node": ">12.x.x"
   },
+  "engines": {
+    "node": ">12.x.x"
+  },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "^2.6.9",
